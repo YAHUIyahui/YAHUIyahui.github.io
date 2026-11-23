@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yahui Wang</title>
+<meta name="description" content="Yahui Wang designs, builds and tests AI systems for mental health, from LLM agents to randomized trials.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout idea: a calm research dossier. Left-aligned column, sticky section index, evidence in tiles and status chips. */
+  --paper: #f7f3ec;
+  --surface: #fffdf8;
+  --ink: #23201b;
+  --muted: #6d665b;
+  --line: #e3dccf;
+  --pine: #2f5d50;
+  --pine-soft: #e4ede8;
+  --amber: #b5762a;
+  --amber-soft: #f6ead8;
+  --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1b1a17; --surface: #23211d; --ink: #ece6da; --muted: #a59d90; --line: #38342d;
+    --pine: #8cc2b1; --pine-soft: #24332e; --amber: #e0a55c; --amber-soft: #3a2e1e;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1b1a17; --surface: #23211d; --ink: #ece6da; --muted: #a59d90; --line: #38342d;
+  --pine: #8cc2b1; --pine-soft: #24332e; --amber: #e0a55c; --amber-soft: #3a2e1e;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 16px/1.65 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--pine); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--amber); }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 3px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 500; text-wrap: balance; margin: 0; }
+.mono { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .02em; }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 56px; }
+nav.index { position: sticky; top: 0; align-self: start; padding-top: 64px; height: 100vh; }
+nav.index .mark { font-family: var(--font-display); font-size: 20px; color: var(--ink); text-decoration: none; display: block; margin-bottom: 28px; }
+nav.index ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+nav.index a.sec { color: var(--muted); text-decoration: none; font-size: 14px; display: flex; gap: 10px; padding: 3px 0; }
+nav.index a.sec span { font-family: var(--font-mono); font-size: 11.5px; color: var(--line); padding-top: 2px; min-width: 18px; }
+nav.index a.sec.on { color: var(--ink); }
+nav.index a.sec.on span { color: var(--amber); }
+nav.index .avail { margin-top: 32px; padding: 12px 14px; border-left: 2px solid var(--amber); background: var(--amber-soft); font-size: 13px; line-height: 1.5; }
+
+main { padding: 64px 0 96px; min-width: 0; }
+section { padding: 56px 0 8px; border-top: 1px solid var(--line); }
+section:first-of-type { border-top: 0; padding-top: 0; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; color: var(--amber); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+h2 { font-size: 32px; margin-bottom: 24px; }
+.lede { max-width: 66ch; color: var(--ink); }
+.muted { color: var(--muted); }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) 180px; gap: 40px; align-items: center; }
+.hero h1 { font-size: 56px; line-height: 1.05; letter-spacing: -.01em; }
+.hero h1 small { font-size: 26px; color: var(--muted); margin-left: 10px; font-weight: 400; }
+.hero .role { margin: 14px 0 22px; color: var(--muted); font-size: 15.5px; }
+.hero .statement { font-family: var(--font-display); font-size: 23px; line-height: 1.45; max-width: 34em; margin: 0 0 24px; }
+.portrait { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; object-position: 50% 40%; border: 4px solid var(--surface); box-shadow: 0 0 0 1px var(--line), 0 10px 30px -12px rgba(47, 93, 80, .45); }
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
+.links a { font-size: 14px; text-decoration: none; border: 1px solid var(--line); background: var(--surface); padding: 6px 12px; border-radius: 999px; color: var(--ink); }
+.links a:hover { border-color: var(--pine); color: var(--pine); }
+.email { margin-top: 12px; font-size: 14px; }
+
+.glance { margin-top: 40px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); background: var(--surface); border-radius: 6px; }
+.glance div { padding: 18px 20px; border-left: 1px solid var(--line); }
+.glance div:first-child { border-left: 0; }
+.glance b { display: block; font-family: var(--font-display); font-size: 34px; font-weight: 500; color: var(--pine); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.glance span { font-size: 13.5px; color: var(--muted); line-height: 1.45; display: block; margin-top: 4px; }
+
+.news { margin-top: 28px; display: grid; gap: 8px; max-width: 72ch; }
+.news li { display: grid; grid-template-columns: 64px 1fr; gap: 12px; font-size: 14.5px; }
+.news ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.news .mono { color: var(--muted); padding-top: 2px; }
+
+/* Research themes */
+.themes { display: grid; gap: 0; }
+.theme { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 16px; padding: 22px 0; border-top: 1px dashed var(--line); }
+.theme:first-child { border-top: 0; padding-top: 4px; }
+.theme .n { font-family: var(--font-display); font-size: 30px; color: var(--amber); line-height: 1; }
+.theme h3 { font-size: 22px; margin-bottom: 6px; }
+.theme p { margin: 0 0 8px; max-width: 68ch; }
+.theme .evidence { font-size: 14px; color: var(--muted); }
+
+/* Systems */
+.systems { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
+.sys { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 20px 22px; display: flex; flex-direction: column; gap: 8px; }
+.sys.feature { grid-column: 1 / -1; border-color: var(--pine); }
+.sys.feature { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 24px; align-items: start; }
+.sys.feature .txt { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.media { border-radius: 6px; overflow: hidden; border: 1px solid var(--line); background: #f6f6f4; }
+.media video, .media img { display: block; width: 100%; height: auto; }
+.media figcaption { font-size: 12.5px; color: var(--muted); padding: 8px 12px; background: var(--surface); border-top: 1px solid var(--line); }
+.thumb { margin: -20px -22px 4px; border-radius: 6px 6px 0 0; overflow: hidden; border-bottom: 1px solid var(--line); max-height: 230px; }
+.thumb img, .thumb video { display: block; width: 100%; height: 230px; object-fit: cover; object-position: top; }
+.photos { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 12px; margin-top: 32px; }
+.photos figure { margin: 0; }
+.photos img { display: block; width: 100%; height: 210px; object-fit: cover; border-radius: 6px; border: 1px solid var(--line); }
+.photos figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+@media (max-width: 640px) { .photos { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .sys.feature { grid-template-columns: 1fr; } }
+.sys header { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.sys h3 { font-size: 21px; }
+.sys h3 small { font-family: var(--font-body); font-size: 13px; color: var(--muted); font-weight: 400; margin-left: 6px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { font-family: var(--font-mono); font-size: 11px; padding: 2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
+.chip.live { background: var(--pine-soft); color: var(--pine); }
+.chip.trial { background: var(--amber-soft); color: var(--amber); }
+.chip.fund { border: 1px solid var(--line); color: var(--muted); }
+.sys p { margin: 0; font-size: 15px; }
+.sys ul { margin: 0; padding-left: 18px; font-size: 14.5px; color: var(--ink); }
+.sys ul li { margin: 2px 0; }
+.sys .foot { margin-top: auto; padding-top: 6px; font-size: 13.5px; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.sys .foot a { font-weight: 500; }
+
+/* Funding table */
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 14.5px; }
+th, td { text-align: left; padding: 11px 16px; border-top: 1px solid var(--line); vertical-align: top; }
+thead th { border-top: 0; font-family: var(--font-mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 500; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.yr { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.role-lead { color: var(--pine); font-weight: 600; }
+.venture { margin-top: 24px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.venture > div { padding: 18px 20px; border-left: 2px solid var(--pine); background: var(--pine-soft); border-radius: 0 6px 6px 0; }
+.venture h3 { font-size: 19px; margin-bottom: 4px; }
+.venture p { margin: 0; font-size: 14.5px; }
+
+/* Publications */
+.pubbar { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; align-items: center; }
+.pubbar button { font: 500 13.5px var(--font-body); background: var(--surface); color: var(--ink); border: 1px solid var(--line); padding: 6px 14px; border-radius: 999px; cursor: pointer; }
+.pubbar button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.pubs { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; }
+.pubs li { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 14px; }
+.pubs .y { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); padding-top: 3px; }
+.pubs .t { font-weight: 500; display: block; }
+.pubs .a, .pubs .v { font-size: 14.5px; color: var(--muted); }
+.pubs .a b { color: var(--ink); font-weight: 600; }
+.pubs .v i { color: var(--ink); }
+.tag { font-family: var(--font-mono); font-size: 10.5px; padding: 1px 6px; border-radius: 3px; background: var(--amber-soft); color: var(--amber); margin-left: 6px; vertical-align: 2px; text-transform: uppercase; letter-spacing: .04em; }
+h3.sub { font-size: 20px; margin: 36px 0 16px; }
+
+/* Experience */
+.tl { display: grid; gap: 0; }
+.tl .row { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 20px; padding: 16px 0; border-top: 1px dashed var(--line); }
+.tl .row:first-child { border-top: 0; }
+.tl .when { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); padding-top: 3px; }
+.tl h3 { font-size: 19px; }
+.tl .org { color: var(--muted); font-size: 14.5px; }
+.tl p { margin: 6px 0 0; font-size: 15px; max-width: 68ch; }
+
+.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+.cols h3 { font-size: 19px; margin-bottom: 10px; }
+.cols ul { margin: 0; padding-left: 18px; font-size: 15px; }
+.cols li { margin-bottom: 8px; }
+
+footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+
+@media (max-width: 900px) {
+  .wrap { grid-template-columns: 1fr; gap: 0; }
+  nav.index { position: static; height: auto; padding-top: 32px; }
+  nav.index ol { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+  nav.index .avail { margin-top: 16px; }
+  main { padding-top: 32px; }
+}
+@media (max-width: 640px) {
+  .hero { grid-template-columns: 1fr; }
+  .portrait { order: -1; width: 112px; height: 112px; }
+  .hero h1 { font-size: 42px; }
+  .hero .statement { font-size: 20px; }
+  .glance { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .glance div:nth-child(3) { border-left: 0; }
+  .glance div:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .systems, .venture, .cols { grid-template-columns: 1fr; }
+  .tl .row { grid-template-columns: 1fr; gap: 4px; }
+  .pubs li { grid-template-columns: 1fr; gap: 2px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="index" aria-label="Sections">
+    <a class="mark" href="#top">Yahui Wang</a>
+    <ol>
+      <li><a class="sec" href="#top"><span>00</span>About</a></li>
+      <li><a class="sec" href="#research"><span>01</span>Research</a></li>
+      <li><a class="sec" href="#systems"><span>02</span>Systems &amp; demos</a></li>
+      <li><a class="sec" href="#funding"><span>03</span>Funding &amp; ventures</a></li>
+      <li><a class="sec" href="#publications"><span>04</span>Publications</a></li>
+      <li><a class="sec" href="#experience"><span>05</span>Experience</a></li>
+      <li><a class="sec" href="#teaching"><span>06</span>Teaching &amp; service</a></li>
+    </ol>
+    <p class="avail">On the 2026–27 job market. PhD thesis submitted December 2026; available from January 2027.</p>
+  </nav>
+
+  <main>
+    <section id="top" aria-labelledby="name">
+      <div class="hero">
+        <div>
+          <h1 id="name">Yahui Wang<small lang="zh">王雅慧</small></h1>
+          <p class="role">PhD Candidate in Psychology, City University of Hong Kong · Founder, Psybot Limited</p>
+          <p class="statement">I design, build and test AI systems for mental health. My work runs from LLM agents and deployed platforms to randomized controlled trials, with a focus on older adults and young people in Hong Kong and the Chinese Mainland.</p>
+          <div class="links">
+            <a href="https://scholar.google.com/citations?user=RnFoaTkAAAAJ">Google Scholar</a>
+            <a href="https://orcid.org/0000-0001-9354-8507">ORCID</a>
+            <a href="https://github.com/YAHUIyahui">GitHub</a>
+            <a href="#publications">Publications</a>
+            <a href="portfolio/">Industry portfolio</a>
+          </div>
+          <p class="email muted">Email: <a href="mailto:wendy614674229@gmail.com">wendy614674229@gmail.com</a></p>
+        </div>
+        <img class="portrait" src="assets/portrait.jpg" alt="Portrait of Yahui Wang" width="180" height="180">
+      </div>
+
+      <div class="glance" aria-label="At a glance">
+        <div><b>3</b><span>randomized controlled trials led, from university students to older adults</span></div>
+        <div><b>7</b><span>competitive grants and programmes, 4 as principal investigator or lead</span></div>
+        <div><b>5</b><span>AI and digital platforms built and in use, with live demos</span></div>
+        <div><b>110</b><span>RCTs synthesized in a three-level meta-analysis on older adults</span></div>
+      </div>
+
+      <div class="news">
+        <div class="eyebrow">Recent</div>
+        <ul>
+          <li><span class="mono">2026</span><span>LeLing, my AI companion for older adults, selected by Tencent's S-Makers / LIGHT programme as one of 50 AI-for-social-good projects nationwide.</span></li>
+          <li><span class="mono">2026</span><span>Papers out in <i>Health Psychology</i> and <i>Scientific Reports</i>.</span></li>
+          <li><span class="mono">2025</span><span>T. J. McCallum Memorial Student Travel Award, Gerontological Society of America (3 to 4 awardees a year).</span></li>
+          <li><span class="mono">2025</span><span>First-author RCT of a CBT-based AI chatbot published in <i>JMIR mHealth and uHealth</i>.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="research" aria-labelledby="h-research">
+      <div class="eyebrow">01 · Research</div>
+      <h2 id="h-research">Three lines of work</h2>
+      <div class="themes">
+        <article class="theme">
+          <div class="n">1</div>
+          <div>
+            <h3>LLM agents that deliver psychological interventions</h3>
+            <p>I build LLM-based systems that follow a therapy protocol, and I test whether they change symptoms. In Reframe, code decides what is taught and the model decides how it is said, so each session stays faithful to cognitive behavioural therapy.</p>
+            <p class="evidence">Evidence: first-author RCT in <i>JMIR mHealth and uHealth</i> (effects on depression and loneliness strongest among students under financial stress); three-arm RCT of agentic AI, sequential generative AI and conventional digital CBT, submission planned December 2026.</p>
+          </div>
+        </article>
+        <article class="theme">
+          <div class="n">2</div>
+          <div>
+            <h3>Digital mental health for older adults</h3>
+            <p>My doctoral research asks when digital interventions work for older adults, who adopts them, and how to adapt them to Chinese communities. Human guidance emerged as the main moderator of intervention effects.</p>
+            <p class="evidence">Evidence: three-level meta-analysis of 110 RCTs on six healthy-ageing outcomes; survey of 663 adults aged 60+ across Hong Kong and the Mainland extending UTAUT2; RCT of a culturally adapted Cantonese mindfulness app with an active control and 83% retention at 12 weeks.</p>
+          </div>
+        </article>
+        <article class="theme">
+          <div class="n">3</div>
+          <div>
+            <h3>Evaluation and safety of mental health AI</h3>
+            <p>Deployed systems need checks that hold up outside the lab. I calibrate LLM-as-judge ratings against counselling-trained human raters, and I test risk screening across languages. Testing Reframe exposed and closed a gap in detecting Cantonese expressions of suicidal intent.</p>
+            <p class="evidence">Outputs: technical report on separating curriculum control from language generation; a 28-day course on evaluating psychology LLMs and agents, designed for workshop teaching.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="systems" aria-labelledby="h-systems">
+      <div class="eyebrow">02 · Systems &amp; demos</div>
+      <h2 id="h-systems">Built, deployed and evaluated</h2>
+      <p class="lede muted" style="margin:-8px 0 24px">Each system below was designed and developed by me. Live links open working versions.</p>
+      <div class="systems">
+        <article class="sys feature">
+          <div class="txt">
+            <header>
+              <h3>Reframe <small>Agentic CBT tutor</small></h3>
+              <div class="chips"><span class="chip live">Live demo</span><span class="chip trial">In RCT</span></div>
+            </header>
+            <p>A six-module CBT programme for four user groups in Mandarin, Cantonese and English.</p>
+            <ul>
+              <li>A deterministic planner walks a 16-concept curriculum graph with mastery criteria; the LLM returns structured mastery estimates that drive progression.</li>
+              <li>Every retained memory cites the user's own words; risk screening runs in code before any model call.</li>
+              <li>Runs on five LLM providers with row-level data isolation and 33 end-to-end automated tests.</li>
+            </ul>
+            <div class="foot"><span>2025–present · Project lead and sole developer</span><a href="https://icbt-ai-tutor.wendy614674229.workers.dev">Open demo and 2-minute video →</a></div>
+          </div>
+          <figure class="media" style="margin:0">
+            <video id="reframe-clip" class="autoclip" src="assets/reframe-clip.mp4" poster="assets/reframe-poster.jpg" muted loop playsinline preload="metadata" aria-label="Reframe interface: the user separates what happened, what they thought and how they felt"></video>
+            <figcaption>Live interface, Cantonese session: separating event, thought and feeling (A, B, C).</figcaption>
+          </figure>
+        </article>
+        <article class="sys">
+          <div class="thumb"><img src="assets/leling.jpg" alt="LeLing home screen on a phone: take medicine on time, care for body and mind" loading="lazy"></div>
+          <header>
+            <h3>LeLing <small lang="zh">乐龄伴</small></h3>
+            <div class="chips"><span class="chip live">Live</span><span class="chip fund">Tencent</span></div>
+          </header>
+          <p>AI companion for older adults built around medication and chronic-disease self-management, with conversation, mindfulness practice and a social-worker review workflow for AI chats.</p>
+          <div class="foot"><span>2026–present · PI · trialled by several hundred older adults</span><a href="https://lelingban-care-hk.pages.dev">Open →</a></div>
+        </article>
+        <article class="sys">
+          <div class="thumb"><img style="object-position:center" src="assets/mindfulcityu.jpg" alt="MindfulCityU app: home screen with mood check-in, and the 8-week mindfulness journey" loading="lazy"></div>
+          <header>
+            <h3>MindfulCityU</h3>
+            <div class="chips"><span class="chip live">Live</span><span class="chip fund">CityU LEAD</span></div>
+          </header>
+          <p>Campus-wide mental health platform with mindfulness courses and an AI question-answering assistant. Recruited 700+ students with pre and post outcome measures; now in campus-wide use.</p>
+          <div class="foot"><span>2025–2026 · PI</span><a href="https://mindfulcityu.pages.dev">Open →</a></div>
+        </article>
+        <article class="sys">
+          <div class="thumb"><video class="autoclip" src="assets/mindflow.mp4" poster="assets/mindflow-poster.jpg" muted loop playsinline preload="metadata" aria-label="MindFlow guided breathing session and VR scene with live biofeedback"></video></div>
+          <header>
+            <h3>MindFlow <small lang="zh">心流灵犀</small></h3>
+            <div class="chips"><span class="chip live">In service</span><span class="chip fund">LeLINK</span></div>
+          </header>
+          <p>Multilingual AI mindfulness platform for older adults that adapts sessions to the user's state. Its NGO edition, MindMate Pro, adds AI CBT chat and questionnaires and is run independently by frontline staff.</p>
+          <div class="foot"><span>2026–present · Co-lead and main developer</span></div>
+        </article>
+        <article class="sys">
+          <div class="thumb"><img style="object-position:center" src="assets/mindful-aging.jpg" alt="Mindful Aging mini-program: guided practice videos with a Mandarin and Cantonese switch" loading="lazy"></div>
+          <header>
+            <h3>Mindful Aging <small lang="zh">乐龄静观</small></h3>
+            <div class="chips"><span class="chip trial">RCT completed</span></div>
+          </header>
+          <p>Culturally adapted smartphone mindfulness programme with Cantonese audio guidance, tested with older adults recruited through six Hong Kong community centres with Caritas and SAGE.</p>
+          <div class="foot"><span>Designer and trial lead · manuscript under review</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="funding" aria-labelledby="h-funding">
+      <div class="eyebrow">03 · Funding &amp; ventures</div>
+      <h2 id="h-funding">Competitive support from government, university and industry</h2>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Year</th><th>Programme</th><th>Project</th><th>Role</th><th>Amount</th></tr></thead>
+          <tbody>
+            <tr><td class="yr">2026</td><td>Tencent S-Makers / LIGHT Programme, AI for Social Good</td><td>LeLing</td><td class="role-lead">PI</td><td class="num">RMB 20,000</td></tr>
+            <tr><td class="yr">2026</td><td>LeLINK Elderly-Care Innovation Programme, Phase 3</td><td>MindFlow</td><td>Co-lead</td><td class="num">RMB 10,000</td></tr>
+            <tr><td class="yr">2026–29</td><td>Guangdong Philosophy and Social Science Youth Programme (GD26YXL13)</td><td>Adolescent cyber aggression: mechanisms and intervention</td><td>Co-investigator</td><td class="num">RMB 20,000</td></tr>
+            <tr><td class="yr">2025–28</td><td>Shaanxi Department of Education, Local Service Programme</td><td>Mind Journey, AI + VR therapeutic game</td><td>Co-applicant</td><td class="num">RMB 100,000</td></tr>
+            <tr><td class="yr">2025–26</td><td>CityU LEAD Knowledge Transfer Programme</td><td>MindfulCityU</td><td class="role-lead">PI</td><td class="num">HKD 100,000</td></tr>
+            <tr><td class="yr">2023</td><td>HKSTP Incubation Programme</td><td>Psybot Limited</td><td class="role-lead">Project lead</td><td class="num">HKD 100,000</td></tr>
+            <tr><td class="yr">2022</td><td>HK Tech 300 Seed Fund</td><td>Psybot AI chatbot platform</td><td class="role-lead">PI</td><td class="num">HKD 100,000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="venture">
+        <div>
+          <h3>Psybot Limited · Founder and CEO</h3>
+          <p>AI mental health start-up founded in 2022, headquartered in Hong Kong with a branch in Xi'an. It offers 24/7 AI conversation, guided meditation and psychological assessment, and now runs a counselling centre in mainland China where counsellors supervise clients' use of its products. Its CBT chatbot is the one tested in my <i>JMIR</i> trial.</p>
+        </div>
+        <div>
+          <h3>Community partners</h3>
+          <p>Research-to-service partnerships with Caritas Elderly Services and the Society for the Aged (SAGE) across six Hong Kong community centres, plus partners in the Chinese Mainland for cross-regional studies.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="publications" aria-labelledby="h-pubs">
+      <div class="eyebrow">04 · Publications</div>
+      <h2 id="h-pubs">Peer-reviewed papers</h2>
+      <div class="pubbar" role="group" aria-label="Filter publications">
+        <button type="button" id="f-all" aria-pressed="true" data-f="all">All</button>
+        <button type="button" id="f-first" aria-pressed="false" data-f="first">First author</button>
+        <span class="mono muted"># joint first author</span>
+      </div>
+      <ol class="pubs" id="publist">
+        <li data-first="1"><span class="y">2025</span><div><span class="t">Effect of a cognitive behavioral therapy-based AI chatbot on depression and loneliness in Chinese university students: Randomized controlled trial with financial stress moderation<span class="tag">First author</span></span><span class="a"><b>Wang, Y.</b>, Li, X., Zhang, Q., Yeung, D. Y., &amp; Wu, Y.</span> <span class="v"><i>JMIR mHealth and uHealth</i>, 13, e63806. <a href="https://doi.org/10.2196/63806">doi</a></span></div></li>
+        <li data-first="1"><span class="y">2025</span><div><span class="t">The identity development in adolescents with mental disorders during their return-to-school experiences: Evidence from a 4-year longitudinal qualitative study<span class="tag">Joint first</span></span><span class="a">Wu, Y.#, <b>Wang, Y.#</b>, Han, S., Jiang, X., &amp; Chiu, M. Y. L.</span> <span class="v"><i>Child: Care, Health and Development</i>, 51(6), e70189. <a href="https://doi.org/10.1111/cch.70189">doi</a></span></div></li>
+        <li><span class="y">2026</span><div><span class="t">Age group differences in the relationships between Big Five personality traits and gait features derived from a single IMU sensor</span><span class="a">Lin, G. J., Wang, Q., <b>Wang, Y.</b>, Tian, Y., Chen, M., Yu, X., Zhao, Y., Li, W. J., &amp; Yeung, D. Y.</span> <span class="v"><i>Scientific Reports</i>. <a href="https://doi.org/10.1038/s41598-026-79578-9">doi</a></span></div></li>
+        <li><span class="y">2026</span><div><span class="t">Within-couple longitudinal associations between functional disability and depressive symptoms among Chinese older couples over four years</span><span class="a">Hou, J., <b>Wang, Y.</b>, &amp; Fu, R.</span> <span class="v"><i>Health Psychology</i>. <a href="https://doi.org/10.1037/hea0001648">doi</a></span></div></li>
+        <li><span class="y">In press</span><div><span class="t">Evaluation of a novel gamified attentional bias modification for improving adolescents' positive affect: A randomized controlled trial</span><span class="a">Zhang, Q., <b>Wang, Y.</b>, &amp; Zhou, Y.</span> <span class="v"><i>Frontiers in Psychology</i>.</span></div></li>
+        <li><span class="y">2025</span><div><span class="t">Effectiveness of mobile-based cognitive behavioural therapy for depression and anxiety in children and young people: A systematic review of randomized controlled trials</span><span class="a">Zhang, Q., &amp; <b>Wang, Y.</b></span> <span class="v"><i>Clinical Psychology &amp; Psychotherapy</i>, 32(6), e70173.</span></div></li>
+        <li><span class="y">2025</span><div><span class="t">The developmental trajectories of attentional biases and their association with internalising symptoms in children transitioning into early adolescence</span><span class="a">Zhang, Q., <b>Wang, Y.</b>, &amp; Ho, S. M. Y.</span> <span class="v"><i>International Journal of Psychology</i>, 60(5), e70104.</span></div></li>
+      </ol>
+
+      <h3 class="sub">Under review and in preparation</h3>
+      <ol class="pubs">
+        <li data-first="1"><span class="y">Review</span><div><span class="t">Digital mental health interventions for older adults: A systematic review and three-level meta-analysis of 110 randomized controlled trials on six healthy-ageing outcomes and human guidance</span><span class="a"><b>Wang, Y.</b>, &amp; Yeung, D. Y. PROSPERO CRD42024505976.</span></div></li>
+        <li data-first="1"><span class="y">Review</span><div><span class="t">Effectiveness of a culturally adapted smartphone-based mindfulness intervention for depressive symptoms and anxiety in older Chinese adults: A randomized controlled trial</span><span class="a"><b>Wang, Y.</b>, Young, D. K. W., &amp; Yeung, D. Y.</span></div></li>
+        <li data-first="1"><span class="y">Prep</span><div><span class="t">Agentic AI, sequential generative AI and conventional digital delivery of cognitive behavioural therapy: A three-arm randomized controlled trial</span><span class="a"><b>Wang, Y.</b>, Wu, Y., et al.</span></div></li>
+        <li data-first="1"><span class="y">Prep</span><div><span class="t">Adoption intention and reported uptake of mental health applications among older adults: A cross-regional study in Hong Kong and the Chinese Mainland</span><span class="a"><b>Wang, Y.</b>, &amp; Yeung, D. Y.</span></div></li>
+        <li data-first="1"><span class="y">Report</span><div><span class="t">Separating curriculum control from language generation in an LLM-delivered CBT programme: System design and evaluation framework</span><span class="a"><b>Wang, Y.</b> (2026). Technical report.</span></div></li>
+      </ol>
+
+      <h3 class="sub">Selected conference presentations</h3>
+      <ol class="pubs">
+        <li><span class="y">2025</span><div><span class="t">Digital mental health interventions for older adults: A meta-analysis of randomized controlled trials</span><span class="a"><b>Wang, Y.</b>, &amp; Yeung, D. Y.</span> <span class="v">Gerontological Society of America Annual Scientific Meeting.</span></div></li>
+        <li><span class="y">2025</span><div><span class="t">Effect of a CBT-based AI chatbot on depression and loneliness in Chinese university students</span><span class="a"><b>Wang, Y.</b>, Li, X., Zhang, Q., Yeung, D. Y., &amp; Wu, Y.</span> <span class="v">Global Mental Health in Asia 2025.</span></div></li>
+        <li><span class="y">2024</span><div><span class="t">Evaluating a CBT-based AI chatbot on well-being of university students with financial stress</span><span class="a"><b>Wang, Y.</b>, Li, X., Zhang, Q., Yeung, D. Y., &amp; Wu, Y.</span> <span class="v">33rd International Congress of Psychology, Prague.</span></div></li>
+      </ol>
+    </section>
+
+    <section id="experience" aria-labelledby="h-exp">
+      <div class="eyebrow">05 · Experience</div>
+      <h2 id="h-exp">Education and work</h2>
+      <div class="tl">
+        <div class="row"><span class="when">2021–2027</span><div><h3>PhD in Psychology</h3><span class="org">City University of Hong Kong · Supervisor: Prof. Dannii Y. Yeung</span><p>Thesis: Navigating the Digital Age: Digital Mental Health Care for Older Adults.</p></div></div>
+        <div class="row"><span class="when">2022–present</span><div><h3>Founder and CEO</h3><span class="org">Psybot Limited, Hong Kong and Xi'an</span><p>Built and led a multidisciplinary team of psychology, business, computer science and data science members, including interns.</p></div></div>
+        <div class="row"><span class="when">2024–2025</span><div><h3>AI Community Head</h3><span class="org">Microware Group (Micromeet), Hong Kong</span><p>Supported Cantonese speech recognition and meeting-summary product development; coordinated speech-data collection.</p></div></div>
+        <div class="row"><span class="when">2018–2021</span><div><h3>Data Science Engineer</h3><span class="org">Micron Technology, Singapore</span><p>Built machine learning and deep learning models for defect-pattern and anomaly detection in manufacturing sensor data; developed an NLP chatbot for cross-department information retrieval.</p></div></div>
+        <div class="row"><span class="when">2018</span><div><h3>Research Intern</h3><span class="org">Panasonic R&amp;D, Learning and Vision Team, Singapore</span><p>Neural-network face recognition research.</p></div></div>
+        <div class="row"><span class="when">2016–2018</span><div><h3>MSc in Statistics</h3><span class="org">National University of Singapore</span><p>Part-time research assistant analysing geospatial data on older adults' daily activity spaces.</p></div></div>
+        <div class="row"><span class="when">2013–2017</span><div><h3>BSc in Mathematics and Applied Mathematics (teacher education); BSc in International Economics and Trade</h3><span class="org">Soochow University · final year at the National University of Singapore</span></div></div>
+      </div>
+    </section>
+
+    <section id="teaching" aria-labelledby="h-teach">
+      <div class="eyebrow">06 · Teaching &amp; service</div>
+      <h2 id="h-teach">Teaching, mentoring and service</h2>
+      <div class="cols">
+        <div>
+          <h3>Teaching and mentoring</h3>
+          <ul>
+            <li>Undergraduate research mentoring at CityU (2026): guided a team extending my chatbot RCT to student stress, from research question to design.</li>
+            <li>28-day course on evaluating psychology LLMs and agents, written for workshop delivery.</li>
+            <li>Digital literacy and mindfulness workshops for older adults at six community centres.</li>
+            <li>PRC Senior Secondary School Teacher Qualification in Mathematics; secondary teaching practicum.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Service and recognition</h3>
+          <ul>
+            <li>Ad hoc reviewer: <i>International Journal of Human–Computer Interaction</i>; <i>Applied Psychology: Health and Well-Being</i>; <i>PsyCh Journal</i>.</li>
+            <li>T. J. McCallum Memorial Student Travel Award and Student Travel Award, Gerontological Society of America (2025).</li>
+            <li>Member of the Gerontological Society of America, American Psychological Association and Digital Health Asia.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="photos" aria-label="Photos">
+      <figure><img src="assets/gsa.jpg" alt="Yahui Wang holding her award certificate in front of the GSA 2025 awardees board" loading="lazy"><figcaption>GSA 2025 awardee, Gerontological Society of America.</figcaption></figure>
+      <figure><img src="assets/talk.jpg" alt="Yahui Wang presenting research slides at a conference" loading="lazy"><figcaption>Presenting trial results at a conference.</figcaption></figure>
+      <figure><img src="assets/team.jpg" alt="Yahui Wang leading a discussion with two team members" loading="lazy"><figcaption>Leading a project team discussion.</figcaption></figure>
+    </div>
+
+    <footer>
+      <p>Yahui Wang · City University of Hong Kong · Updated November 2026</p>
+    </footer>
+  </main>
+</div>
+<script>
+(function () {
+  var buttons = document.querySelectorAll('.pubbar button');
+  var items = document.querySelectorAll('#publications .pubs li');
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = b.getAttribute('data-f');
+      buttons.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      items.forEach(function (li) { li.hidden = f === 'first' && li.getAttribute('data-first') !== '1'; });
+    });
+  });
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav.index a.sec'));
+  var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  function mark() {
+    var y = window.scrollY + 140, idx = 0;
+    secs.forEach(function (s, i) { if (s && s.offsetTop <= y) idx = i; });
+    links.forEach(function (a, i) { a.classList.toggle('on', i === idx); });
+  }
+  window.addEventListener('scroll', mark, { passive: true });
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('video.autoclip').forEach(function (v) {
+    if (reduce) { v.controls = true; return; }
+    var pr = v.play(); if (pr && pr.catch) pr.catch(function () { v.controls = true; });
+  });
+  mark();
+})();
+</script>
+</body>
+</html>

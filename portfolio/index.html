@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yahui Wang Portfolio</title>
+<meta name="description" content="Yahui Wang builds LLM agents and digital health products, with three years of industry machine learning and a psychology PhD.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout idea: same dossier system as the academic page, reordered for hiring managers: work first, evidence second. */
+  --paper: #f7f3ec;
+  --surface: #fffdf8;
+  --ink: #23201b;
+  --muted: #6d665b;
+  --line: #e3dccf;
+  --pine: #2f5d50;
+  --pine-soft: #e4ede8;
+  --amber: #b5762a;
+  --amber-soft: #f6ead8;
+  --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1b1a17; --surface: #23211d; --ink: #ece6da; --muted: #a59d90; --line: #38342d;
+    --pine: #8cc2b1; --pine-soft: #24332e; --amber: #e0a55c; --amber-soft: #3a2e1e;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1b1a17; --surface: #23211d; --ink: #ece6da; --muted: #a59d90; --line: #38342d;
+  --pine: #8cc2b1; --pine-soft: #24332e; --amber: #e0a55c; --amber-soft: #3a2e1e;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 16px/1.65 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--pine); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--amber); }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 3px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 500; text-wrap: balance; margin: 0; }
+.mono { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .02em; }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 56px; }
+nav.index { position: sticky; top: 0; align-self: start; padding-top: 64px; height: 100vh; }
+nav.index .mark { font-family: var(--font-display); font-size: 20px; color: var(--ink); text-decoration: none; display: block; margin-bottom: 28px; }
+nav.index ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+nav.index a.sec { color: var(--muted); text-decoration: none; font-size: 14px; display: flex; gap: 10px; padding: 3px 0; }
+nav.index a.sec span { font-family: var(--font-mono); font-size: 11.5px; color: var(--line); padding-top: 2px; min-width: 18px; }
+nav.index a.sec.on { color: var(--ink); }
+nav.index a.sec.on span { color: var(--amber); }
+nav.index .avail { margin-top: 32px; padding: 12px 14px; border-left: 2px solid var(--amber); background: var(--amber-soft); font-size: 13px; line-height: 1.5; }
+
+main { padding: 64px 0 96px; min-width: 0; }
+section { padding: 56px 0 8px; border-top: 1px solid var(--line); }
+section:first-of-type { border-top: 0; padding-top: 0; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; color: var(--amber); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+h2 { font-size: 32px; margin-bottom: 24px; }
+.lede { max-width: 66ch; color: var(--ink); }
+.muted { color: var(--muted); }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) 180px; gap: 40px; align-items: center; }
+.hero h1 { font-size: 56px; line-height: 1.05; letter-spacing: -.01em; }
+.hero h1 small { font-size: 26px; color: var(--muted); margin-left: 10px; font-weight: 400; }
+.hero .role { margin: 14px 0 22px; color: var(--muted); font-size: 15.5px; }
+.hero .statement { font-family: var(--font-display); font-size: 23px; line-height: 1.45; max-width: 34em; margin: 0 0 24px; }
+.portrait { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; object-position: 50% 40%; border: 4px solid var(--surface); box-shadow: 0 0 0 1px var(--line), 0 10px 30px -12px rgba(47, 93, 80, .45); }
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
+.links a { font-size: 14px; text-decoration: none; border: 1px solid var(--line); background: var(--surface); padding: 6px 12px; border-radius: 999px; color: var(--ink); }
+.links a:hover { border-color: var(--pine); color: var(--pine); }
+.email { margin-top: 12px; font-size: 14px; }
+
+.glance { margin-top: 40px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); background: var(--surface); border-radius: 6px; }
+.glance div { padding: 18px 20px; border-left: 1px solid var(--line); }
+.glance div:first-child { border-left: 0; }
+.glance b { display: block; font-family: var(--font-display); font-size: 34px; font-weight: 500; color: var(--pine); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.glance span { font-size: 13.5px; color: var(--muted); line-height: 1.45; display: block; margin-top: 4px; }
+
+.news { margin-top: 28px; display: grid; gap: 8px; max-width: 72ch; }
+.news li { display: grid; grid-template-columns: 64px 1fr; gap: 12px; font-size: 14.5px; }
+.news ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.news .mono { color: var(--muted); padding-top: 2px; }
+
+/* Research themes */
+.themes { display: grid; gap: 0; }
+.theme { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 16px; padding: 22px 0; border-top: 1px dashed var(--line); }
+.theme:first-child { border-top: 0; padding-top: 4px; }
+.theme .n { font-family: var(--font-display); font-size: 30px; color: var(--amber); line-height: 1; }
+.theme h3 { font-size: 22px; margin-bottom: 6px; }
+.theme p { margin: 0 0 8px; max-width: 68ch; }
+.theme .evidence { font-size: 14px; color: var(--muted); }
+
+/* Systems */
+.systems { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
+.sys { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 20px 22px; display: flex; flex-direction: column; gap: 8px; }
+.sys.feature { grid-column: 1 / -1; border-color: var(--pine); }
+.sys.feature { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 24px; align-items: start; }
+.sys.feature .txt { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.media { border-radius: 6px; overflow: hidden; border: 1px solid var(--line); background: #f6f6f4; }
+.media video, .media img { display: block; width: 100%; height: auto; }
+.media figcaption { font-size: 12.5px; color: var(--muted); padding: 8px 12px; background: var(--surface); border-top: 1px solid var(--line); }
+.thumb { margin: -20px -22px 4px; border-radius: 6px 6px 0 0; overflow: hidden; border-bottom: 1px solid var(--line); max-height: 230px; }
+.thumb img, .thumb video { display: block; width: 100%; height: 230px; object-fit: cover; object-position: top; }
+.photos { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 12px; margin-top: 32px; }
+.photos figure { margin: 0; }
+.photos img { display: block; width: 100%; height: 210px; object-fit: cover; border-radius: 6px; border: 1px solid var(--line); }
+.photos figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+@media (max-width: 640px) { .photos { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .sys.feature { grid-template-columns: 1fr; } }
+.sys header { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.sys h3 { font-size: 21px; }
+.sys h3 small { font-family: var(--font-body); font-size: 13px; color: var(--muted); font-weight: 400; margin-left: 6px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { font-family: var(--font-mono); font-size: 11px; padding: 2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
+.chip.live { background: var(--pine-soft); color: var(--pine); }
+.chip.trial { background: var(--amber-soft); color: var(--amber); }
+.chip.fund { border: 1px solid var(--line); color: var(--muted); }
+.sys p { margin: 0; font-size: 15px; }
+.sys ul { margin: 0; padding-left: 18px; font-size: 14.5px; color: var(--ink); }
+.sys ul li { margin: 2px 0; }
+.sys .foot { margin-top: auto; padding-top: 6px; font-size: 13.5px; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.sys .foot a { font-weight: 500; }
+
+/* Funding table */
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 14.5px; }
+th, td { text-align: left; padding: 11px 16px; border-top: 1px solid var(--line); vertical-align: top; }
+thead th { border-top: 0; font-family: var(--font-mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 500; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.yr { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.role-lead { color: var(--pine); font-weight: 600; }
+.venture { margin-top: 24px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.venture > div { padding: 18px 20px; border-left: 2px solid var(--pine); background: var(--pine-soft); border-radius: 0 6px 6px 0; }
+.venture h3 { font-size: 19px; margin-bottom: 4px; }
+.venture p { margin: 0; font-size: 14.5px; }
+
+/* Publications */
+.pubbar { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; align-items: center; }
+.pubbar button { font: 500 13.5px var(--font-body); background: var(--surface); color: var(--ink); border: 1px solid var(--line); padding: 6px 14px; border-radius: 999px; cursor: pointer; }
+.pubbar button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.pubs { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; }
+.pubs li { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 14px; }
+.pubs .y { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); padding-top: 3px; }
+.pubs .t { font-weight: 500; display: block; }
+.pubs .a, .pubs .v { font-size: 14.5px; color: var(--muted); }
+.pubs .a b { color: var(--ink); font-weight: 600; }
+.pubs .v i { color: var(--ink); }
+.tag { font-family: var(--font-mono); font-size: 10.5px; padding: 1px 6px; border-radius: 3px; background: var(--amber-soft); color: var(--amber); margin-left: 6px; vertical-align: 2px; text-transform: uppercase; letter-spacing: .04em; }
+h3.sub { font-size: 20px; margin: 36px 0 16px; }
+
+/* Experience */
+.tl { display: grid; gap: 0; }
+.tl .row { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 20px; padding: 16px 0; border-top: 1px dashed var(--line); }
+.tl .row:first-child { border-top: 0; }
+.tl .when { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); padding-top: 3px; }
+.tl h3 { font-size: 19px; }
+.tl .org { color: var(--muted); font-size: 14.5px; }
+.tl p { margin: 6px 0 0; font-size: 15px; max-width: 68ch; }
+
+.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+.cols h3 { font-size: 19px; margin-bottom: 10px; }
+.cols ul { margin: 0; padding-left: 18px; font-size: 15px; }
+.cols li { margin-bottom: 8px; }
+
+footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+
+@media (max-width: 900px) {
+  .wrap { grid-template-columns: 1fr; gap: 0; }
+  nav.index { position: static; height: auto; padding-top: 32px; }
+  nav.index ol { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+  nav.index .avail { margin-top: 16px; }
+  main { padding-top: 32px; }
+}
+@media (max-width: 640px) {
+  .hero { grid-template-columns: 1fr; }
+  .portrait { order: -1; width: 112px; height: 112px; }
+  .hero h1 { font-size: 42px; }
+  .hero .statement { font-size: 20px; }
+  .glance { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .glance div:nth-child(3) { border-left: 0; }
+  .glance div:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .systems, .venture, .cols { grid-template-columns: 1fr; }
+  .tl .row { grid-template-columns: 1fr; gap: 4px; }
+  .pubs li { grid-template-columns: 1fr; gap: 2px; }
+}
+
+.work { display: grid; gap: 28px; }
+.proj { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 28px; align-items: center; padding: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.proj:nth-child(even) .media { order: 2; }
+.proj .media { margin: 0; }
+.proj .media img, .proj .media video { display: block; width: 100%; height: auto; }
+.proj h3 { font-size: 24px; margin-bottom: 4px; }
+.proj .what { color: var(--muted); font-size: 14.5px; margin: 0 0 10px; }
+.proj ul { margin: 0 0 12px; padding-left: 18px; font-size: 15px; }
+.proj li { margin: 3px 0; }
+.stack { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.stack span { font-family: var(--font-mono); font-size: 11.5px; padding: 2px 8px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); }
+.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.skills div { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; }
+.skills h3 { font-size: 18px; margin-bottom: 8px; }
+.skills p { margin: 0; font-size: 14.5px; }
+@media (max-width: 760px) { .proj { grid-template-columns: 1fr; } .proj:nth-child(even) .media { order: 0; } .skills { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="index" aria-label="Sections">
+    <a class="mark" href="#top">Yahui Wang</a>
+    <ol>
+      <li><a class="sec" href="#top"><span>00</span>Profile</a></li>
+      <li><a class="sec" href="#work"><span>01</span>Selected work</a></li>
+      <li><a class="sec" href="#experience"><span>02</span>Experience</a></li>
+      <li><a class="sec" href="#skills"><span>03</span>Skills</a></li>
+      <li><a class="sec" href="#evidence"><span>04</span>Research &amp; funding</a></li>
+    </ol>
+    <p class="avail">Available from January 2027. Based in Hong Kong; open to Hong Kong and Singapore roles.</p>
+  </nav>
+
+  <main>
+    <section id="top" aria-labelledby="name">
+      <div class="hero">
+        <div>
+          <h1 id="name">Yahui Wang<small lang="zh">王雅慧</small></h1>
+          <p class="role">AI engineer and product builder · PhD in Psychology, City University of Hong Kong · Founder, Psybot Limited</p>
+          <p class="statement">I build LLM agents and digital health products and take them to real users. Three years of machine learning at Micron, a start-up of my own, and a psychology PhD in which I tested my systems in randomized trials.</p>
+          <div class="links">
+            <a href="https://github.com/YAHUIyahui">GitHub</a>
+            <a href="#work">Live demos</a>
+            <a href="../">Academic homepage</a>
+          </div>
+          <p class="email muted">Email: <a href="mailto:wendy614674229@gmail.com">wendy614674229@gmail.com</a></p>
+        </div>
+        <img class="portrait" src="../assets/portrait.jpg" alt="Portrait of Yahui Wang" width="180" height="180">
+      </div>
+      <div class="glance" aria-label="At a glance">
+        <div><b>5</b><span>products designed, built and shipped to real users</span></div>
+        <div><b>3 yrs</b><span>industry ML and NLP at Micron Technology, Singapore</span></div>
+        <div><b>7</b><span>competitive grants and incubation programmes won</span></div>
+        <div><b>3</b><span>randomized trials run on AI and digital interventions</span></div>
+      </div>
+    </section>
+
+    <section id="work" aria-labelledby="h-work">
+      <div class="eyebrow">01 · Selected work</div>
+      <h2 id="h-work">Products I built and shipped</h2>
+      <div class="work">
+        <article class="proj">
+          <div>
+            <h3>Reframe</h3>
+            <p class="what">Agentic CBT tutor · project lead and sole developer · 2025–present</p>
+            <ul>
+              <li>Multi-agent design: a deterministic planner walks a 16-concept curriculum graph; the LLM only phrases the teaching and returns structured mastery estimates.</li>
+              <li>Safety in code: risk screening runs before any model call; testing exposed and closed a gap in Cantonese suicidal-intent detection.</li>
+              <li>Production setup: five LLM providers behind one interface, row-level data isolation, 33 end-to-end automated tests, three languages.</li>
+              <li>Now the intervention arm of a three-arm randomized controlled trial.</li>
+            </ul>
+            <div class="stack"><span>LLM agents</span><span>Cloudflare Workers</span><span>Multi-provider LLM</span><span>E2E testing</span></div>
+            <a href="https://icbt-ai-tutor.wendy614674229.workers.dev">Open live demo and 2-minute video →</a>
+          </div>
+          <figure class="media"><video class="autoclip" src="../assets/reframe-clip.mp4" poster="../assets/reframe-poster.jpg" muted loop playsinline preload="metadata" aria-label="Reframe interface walkthrough"></video><figcaption>Live interface, Cantonese session.</figcaption></figure>
+        </article>
+        <article class="proj">
+          <div>
+            <h3>LeLing <small lang="zh" class="muted" style="font-size:15px">乐龄伴</small></h3>
+            <p class="what">AI companion for older adults · PI · 2026–present</p>
+            <ul>
+              <li>Medication reminders, chronic-disease self-management, conversation and mindfulness practice in one web app.</li>
+              <li>Social-worker review workflow so frontline staff can check AI conversations.</li>
+              <li>Piloted with several hundred older adults; selected by Tencent's S-Makers / LIGHT programme as one of 50 AI-for-social-good projects nationwide.</li>
+            </ul>
+            <div class="stack"><span>Web app</span><span>Cloudflare Pages</span><span>Conversational AI</span><span>Human-in-the-loop</span></div>
+            <a href="https://lelingban-care-hk.pages.dev">Open live app →</a>
+          </div>
+          <figure class="media"><img src="../assets/leling.jpg" alt="LeLing home screen on a phone" loading="lazy"><figcaption>Home screen, Cantonese edition.</figcaption></figure>
+        </article>
+        <article class="proj">
+          <div>
+            <h3>MindfulCityU</h3>
+            <p class="what">Campus mental health platform · PI, CityU LEAD grant · 2025–2026</p>
+            <ul>
+              <li>Mood check-in, an 8-week mindfulness journey, AI question answering and a referral page to campus services.</li>
+              <li>Recruited 700+ students with pre and post outcome measures; now in campus-wide use, with plans to extend to other Hong Kong universities.</li>
+            </ul>
+            <div class="stack"><span>Mobile web</span><span>Cloudflare Pages</span><span>AI Q&amp;A</span><span>Trilingual UI</span></div>
+            <a href="https://mindfulcityu.pages.dev">Open live app →</a>
+          </div>
+          <figure class="media"><img src="../assets/mindfulcityu.jpg" alt="MindfulCityU home and mindfulness journey screens" loading="lazy"><figcaption>Home with mood check-in; 8-week programme.</figcaption></figure>
+        </article>
+        <article class="proj">
+          <div>
+            <h3>MindFlow <small lang="zh" class="muted" style="font-size:15px">心流灵犀</small></h3>
+            <p class="what">Adaptive mindfulness platform for older adults · co-lead and main developer · 2026–present</p>
+            <ul>
+              <li>Sessions adapt to the user's state, including a VR breathing scene with live biofeedback.</li>
+              <li>NGO edition, MindMate Pro, adds AI CBT chat and questionnaires and is run independently by frontline staff.</li>
+            </ul>
+            <div class="stack"><span>Adaptive content</span><span>VR</span><span>Biofeedback</span><span>NGO deployment</span></div>
+          </div>
+          <figure class="media"><video class="autoclip" src="../assets/mindflow.mp4" poster="../assets/mindflow-poster.jpg" muted loop playsinline preload="metadata" aria-label="MindFlow breathing session and VR scene"></video><figcaption>Guided breathing and VR scene.</figcaption></figure>
+        </article>
+        <article class="proj">
+          <div>
+            <h3>Mindful Aging <small lang="zh" class="muted" style="font-size:15px">乐龄静观</small></h3>
+            <p class="what">Mindfulness mini-program for older adults · designer and trial lead · 2025</p>
+            <ul>
+              <li>Eight weekly guided practices with animated video, switchable between Mandarin and Cantonese audio.</li>
+              <li>Tested in a randomized controlled trial with older adults from six Hong Kong community centres; 83% retained at 12 weeks.</li>
+            </ul>
+            <div class="stack"><span>WeChat mini-program</span><span>Video content design</span><span>Bilingual audio</span><span>RCT</span></div>
+          </div>
+          <figure class="media"><img src="../assets/mindful-aging.jpg" alt="Mindful Aging practice screens in Mandarin and Cantonese" loading="lazy"><figcaption>Practice screens with language switch.</figcaption></figure>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" aria-labelledby="h-exp">
+      <div class="eyebrow">02 · Experience</div>
+      <h2 id="h-exp">Work experience</h2>
+      <div class="tl">
+        <div class="row"><span class="when">2022–present</span><div><h3>Founder and CEO</h3><span class="org">Psybot Limited, Hong Kong and Xi'an · HK Tech 300, HKSTP Incubation</span><p>Built an AI mental health start-up offering 24/7 AI conversation, guided meditation and psychological assessment. Led a team spanning psychology, business, computer science and data science. Raised HKD 200,000 in seed and incubation funding. Grew the product into a counselling centre in mainland China where counsellors supervise clients' use of Psybot.</p></div></div>
+        <div class="row"><span class="when">2024–2025</span><div><h3>AI Community Head</h3><span class="org">Microware Group (Micromeet), Hong Kong</span><p>Supported Cantonese speech recognition and meeting-summary product development; coordinated speech-data collection.</p></div></div>
+        <div class="row"><span class="when">2018–2021</span><div><h3>Data Science Engineer</h3><span class="org">Micron Technology, Singapore</span><p>Built machine learning and deep learning models for defect-pattern and anomaly detection in chip manufacturing. Developed an NLP chatbot for cross-department data retrieval. Worked with cross-functional teams to deploy process-automation systems.</p></div></div>
+        <div class="row"><span class="when">2018</span><div><h3>Research Intern</h3><span class="org">Panasonic R&amp;D, Learning and Vision Team, Singapore</span><p>Neural-network face recognition research with a Python GUI system.</p></div></div>
+      </div>
+    </section>
+
+    <section id="skills" aria-labelledby="h-skills">
+      <div class="eyebrow">03 · Skills</div>
+      <h2 id="h-skills">What I work with</h2>
+      <div class="skills">
+        <div><h3>AI and engineering</h3><p>Python, SQL; PyTorch, TensorFlow, scikit-learn; BERT and transformer NLP; LLM agents, multi-provider LLM integration, prompt and pipeline design; web app deployment on Cloudflare.</p></div>
+        <div><h3>Evaluation and data</h3><p>LLM-as-judge calibration against human raters; randomized controlled trials; mixed-effects models, SEM, meta-analysis, mediation and moderation; R, Mplus, SPSS.</p></div>
+        <div><h3>Product and people</h3><p>User research with older adults and students; co-design with NGOs; grant writing and fundraising; team leadership. Working languages: English and Mandarin.</p></div>
+      </div>
+    </section>
+
+    <section id="evidence" aria-labelledby="h-ev">
+      <div class="eyebrow">04 · Research &amp; funding</div>
+      <h2 id="h-ev">Evidence behind the products</h2>
+      <p class="lede">My PhD tested these systems with real users. A randomized trial of my CBT chatbot, published in <i>JMIR mHealth and uHealth</i>, reduced depression and loneliness among university students. I have seven peer-reviewed papers and seven competitive grants and programmes from government, university and industry funders, including Tencent, CityU and the Hong Kong Science and Technology Parks. The full record is on my <a href="../">academic homepage</a>.</p>
+      <div class="photos" aria-label="Photos">
+        <figure><img src="../assets/team.jpg" alt="Yahui Wang leading a discussion with two team members" loading="lazy"><figcaption>Leading a project team discussion.</figcaption></figure>
+        <figure><img src="../assets/talk.jpg" alt="Yahui Wang presenting at a conference" loading="lazy"><figcaption>Presenting trial results.</figcaption></figure>
+        <figure><img src="../assets/gsa.jpg" alt="Yahui Wang with her GSA 2025 award" loading="lazy"><figcaption>GSA 2025 awardee.</figcaption></figure>
+      </div>
+    </section>
+
+    <footer><p>Yahui Wang · Hong Kong · Updated November 2026</p></footer>
+  </main>
+</div>
+<script>
+(function () {
+  var buttons = document.querySelectorAll('.pubbar button');
+  var items = document.querySelectorAll('#publications .pubs li');
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = b.getAttribute('data-f');
+      buttons.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      items.forEach(function (li) { li.hidden = f === 'first' && li.getAttribute('data-first') !== '1'; });
+    });
+  });
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav.index a.sec'));
+  var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  function mark() {
+    var y = window.scrollY + 140, idx = 0;
+    secs.forEach(function (s, i) { if (s && s.offsetTop <= y) idx = i; });
+    links.forEach(function (a, i) { a.classList.toggle('on', i === idx); });
+  }
+  window.addEventListener('scroll', mark, { passive: true });
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('video.autoclip').forEach(function (v) {
+    if (reduce) { v.controls = true; return; }
+    var pr = v.play(); if (pr && pr.catch) pr.catch(function () { v.controls = true; });
+  });
+  mark();
+})();
+</script>
+</body>
+</html>
